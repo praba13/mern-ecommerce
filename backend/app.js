@@ -6,10 +6,12 @@ const app = express();
 
 dotenv.config({ path: path.join(__dirname, 'config/config.env') });
 
+//middlewares
+app.use(express.json());
+
 //routes
 const products = require('./routes/product');
 
-//middlewares
 app.use('/api/v1/', products);
 
 module.exports = app;
