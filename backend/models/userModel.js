@@ -37,6 +37,7 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre('save', async function (next) {
+  /* if cond for reset Passwort */
   if (!this.isModified('password')) {
     next();
   }

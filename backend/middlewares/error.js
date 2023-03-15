@@ -25,6 +25,12 @@ module.exports = (err, req, res, next) => {
       error = new Error(message);
     }
 
+    if (err.code == 11000) {
+      let message = `Duplicate ${Object.keys(err.keyValue)} error`;
+      error = new Error(message);
+      err.statusCode = 400;
+    }
+
     res.status(err.statusCode).json({
       success: false,
       //message: err.message
