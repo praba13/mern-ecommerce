@@ -1,7 +1,17 @@
 const express = require('express');
 const path = require('path');
 const router = express.Router();
-const { isAuthenticatedUser } = require('../middlewares/authenticate');
+const {
+  isAuthenticatedUser,
+  authorizeRoles
+} = require('../middlewares/authenticate');
+
+/* 
+==================
+====USER-ROUTES===
+==================
+*/
+
 const {
   registerUser,
   loginUser,
@@ -21,5 +31,28 @@ router.route('/password/reset/:token').post(resetPassword);
 router.route('/myprofile').get(isAuthenticatedUser, getUserProfile);
 router.route('/password/change').put(isAuthenticatedUser, changePassword);
 router.route('/update').put(isAuthenticatedUser, updateProfile);
+
+/* 
+===================
+====ADMIN-ROUTES===
+===================
+*/
+
+const {
+  getAllUsers,
+  getUser,
+  updateUser,
+  deleteUser
+} = require('../controllers/authController');
+
+router
+  .route('/admin/users')
+  .get(isAuthenticatedUser, authorizeRoles('admin'), getAllUsers);
+
+router
+  .route('/admin/user/:id')
+  .get(isAuthenticatedUser, authorizeRoles('admin'), getUser)
+  .put(isAuthenticatedUser, authorizeRoles('admin'), updateUser)
+  .delete(isAuthenticatedUser, authorizeRoles('admin'), deleteUser);
 
 module.exports = router;
