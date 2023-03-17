@@ -1,9 +1,12 @@
 import './App.css';
+import Footer from './components/layouts/Footer';
+import Header from './components/layouts/Header';
 
 function App() {
   return (
     <div className='App'>
-      <h1>Ecommerce Website</h1>
+      <Header />
+      <Footer />
     </div>
   );
 }
